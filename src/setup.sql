@@ -107,4 +107,10 @@ VALUES
  'Ogun', '2026-11-25');
 
 
-SELECT * FROM service_projects;]
+SELECT * FROM service_projects;
+
+INSERT INTO categories (category_name)
+VALUES 	('Environmental'),
+		('Food and Poverty Relief'),
+		('Arts and Culture'),
+		('Environmental');
