@@ -1,5 +1,9 @@
 // Import any needed model functions
 import { getUpcomingProjects, getProjectDetails } from '../models/projects.js';
+import { getOrganizationDetails } from '../models/organizations.js';
+import { getProjectsByOrganizationId } from '../models/projects.js';
+import { getCategoriesByProjectId } from '../models/categories.js';
+import { getCategoryById } from '../models/categories.js';
 
 const NUMBER_OF_PROJECTS_TO_SHOW = 5;
 
@@ -11,26 +15,6 @@ const showProjectsPage = async (req, res) => {
 
     res.render('projects', { title, projects });
 };  
-
-const getProjectsByOrganizationId = async (organizationId) => {
-      const query = `
-        SELECT
-          project_id,
-          organization_id,
-          title,
-          description,
-          location,
-          date
-        FROM project
-        WHERE organization_id = $1
-        ORDER BY date;
-      `;
-      
-      const queryParams = [organizationId];
-      const result = await db.query(query, queryParams);
-
-      return result.rows;
-};
 
 const showOrganizationDetailsPage = async (req, res) => {
     const organizationId = req.params.id;
@@ -44,11 +28,28 @@ const showOrganizationDetailsPage = async (req, res) => {
 const showProjectDetailsPage = async (req, res) => {
     const projectId = req.params.id;
     const project = await getProjectDetails(projectId);
+    const categories = await getCategoriesByProjectId(projectId);
     const title = 'Project Details';
-    res.render('project', { title, project });
+    
+    res.render('project', { title, project, categories });
+};
+
+const showCategoryDetailsPage = async (req, res) => {
+    const categoryId = req.params.id;
+
+    const category = await getCategoryById(categoryId);
+    const projects = await getProjectsByCategoryId(categoryId);
+
+    const title = 'Category Details';
+
+    res.render('category', {
+        title,
+        category,
+        projects
+    });
 };
 
 // Export any controller functions
 export {
-  showProjectsPage, showOrganizationDetailsPage, getProjectsByOrganizationId, getUpcomingProjects, showProjectDetailsPage
+  showProjectsPage, showOrganizationDetailsPage, showProjectDetailsPage, showCategoryDetailsPage
  };

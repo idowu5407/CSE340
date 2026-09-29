@@ -1,7 +1,7 @@
 import db from './db.js';
 
 // Get upcoming projects
-async function getUpcomingProjects(number_of_projects) {
+const getUpcomingProjects = async (number_of_projects) => {
     const sql = `
         SELECT
             service_projects.project_id,
@@ -16,11 +16,11 @@ async function getUpcomingProjects(number_of_projects) {
             ON service_projects.organization_id = organizations.organization_id
         WHERE service_projects.date >= CURRENT_DATE
         ORDER BY service_projects.date ASC
-        LIMIT $1
+        LIMIT $1;
     `;
-        const result = await db.query(sql, [number_of_projects]);
-        return result.rows;
-}
+    const result = await db.query(sql, [number_of_projects]);
+    return result.rows;
+};
     
 
 
@@ -33,9 +33,10 @@ const getProjectsByOrganizationId = async (organizationId) => {
           description,
           location,
           date
-        FROM project
-        WHERE organization_id = $1
-        ORDER BY date;
+        FROM  service_projects
+        JOIN organizations ON service_projects.organization_id = organizations.organization_id
+        WHERE service_projects.organization_id = $1
+        ORDER BY service_projects.date ASC;
       `;
       
       const queryParams = [organizationId];
@@ -45,7 +46,7 @@ const getProjectsByOrganizationId = async (organizationId) => {
 };
 
 // Get single project details
-async function getProjectDetails(Id) {
+const getProjectDetails = async (Id) => {
     const sql = `
         SELECT
             service_projects.project_id,
@@ -58,10 +59,10 @@ async function getProjectDetails(Id) {
         FROM service_projects
         JOIN organizations
             ON service_projects.organization_id = organizations.organization_id
-        WHERE service_projects.project_id = $1
+        WHERE service_projects.project_id = $1;
     `;
     const result = await db.query(sql, [Id]);
     return result.rows[0];
-}
+};
 
 export { getUpcomingProjects, getProjectsByOrganizationId, getProjectDetails };
