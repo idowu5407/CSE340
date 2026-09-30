@@ -10,7 +10,7 @@ import { showCategoriesPage } from './controllers/categories.js';
 import { testErrorPage } from './controllers/error.js';  
 import { showProjectDetailsPage } from './controllers/projects.js';
 import { showCategoryDetailsPage } from './controllers/categories.js';  
-
+import { organizationValidation } from './controllers/organizations.js'; // Import the validation rules
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ router.get('/categories', showCategoriesPage);
 router.get('/organizations/:id', showOrganizationDetailsPage);
 router.get('/category/:id', showCategoryDetailsPage);
 router.get('/new-organization', showNewOrganizationPage);
-router.post('/new-organization', processNewOrganizationForm);
+router.post('/new-organization', organizationValidation, processNewOrganizationForm); // Apply validation rules to the POST route   
 
 //router.get('/test', (req, res) => {
     //res.send('TEST ROUTE IS WORKING');
