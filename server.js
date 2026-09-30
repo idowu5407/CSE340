@@ -5,8 +5,10 @@ import { testConnection } from './src/models/db.js';
 import router from './src/routes.js';
 
 
+
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
+
 
 // Define the port number the server will listen on
 const PORT = process.env.PORT || 3000;
@@ -16,6 +18,10 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+
+// Allow Express to receive and process common POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -28,11 +34,16 @@ app.set('views', path.join(__dirname, 'src/views'));
 
 // Middleware to log all incoming requests
 app.use((req, res, next) => {
-    if (NODE_ENV === 'development') {
+   if (NODE_ENV === 'development') {
         console.log(`${req.method} ${req.url}`);
     }
-    next(); // Pass control to the next middleware or route
+   next(); // Pass control to the next middleware or route
 });
+
+//app.use((req, res, next) => {
+   // console.log('REQUEST RECEIVED:', req.method, req.url);
+    //next();
+//});
 
 // Middleware to make NODE_ENV available to all templates
 app.use((req, res, next) => {
