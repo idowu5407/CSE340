@@ -245,6 +245,25 @@ button:hover {
   text-decoration: none;
 }
 
+.category-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.category-checkbox label {
+    display: inline-block;
+    color: #333;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.category-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
 /* ------------------------------
    Footer   
 ------------------------------ */

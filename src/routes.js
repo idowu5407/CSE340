@@ -15,6 +15,9 @@ import { showEditOrganizationPage } from './controllers/organizations.js';
 import { processEditOrganizationForm } from './controllers/organizations.js';
 import { showNewProjectForm, processNewProjectForm } from './controllers/projects.js'; // Import the new project form controller functions
 import { projectValidation } from './controllers/projects.js'; // Import the validation rules for projects
+import { showAssignCategoriesForm, processAssignCategoriesForm } from './controllers/categories.js'; // Import the assign categories form controller functions
+
+
 
 const router = express.Router();
 
@@ -31,7 +34,8 @@ router.get('/edit-organization/:id', showEditOrganizationPage); // Show the edit
 router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm); // Apply validation rules to the POST route for editing
 router.get('/new-project', showNewProjectForm); // Show the new project form
 router.post('/new-project', projectValidation, processNewProjectForm); // Handle the submission of the new project form
-
+router.get('/project/:projectId/assign-categories', showAssignCategoriesForm); // Show the assign categories form
+router.post('/project/:projectId/assign-categories', processAssignCategoriesForm); // Handle the submission of the assign categories form 
 
 //router.get('/test', (req, res) => {
     //res.send('TEST ROUTE IS WORKING');

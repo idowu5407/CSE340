@@ -70,6 +70,63 @@ const getProjectsByCategoryId = async (categoryId) => {
     return result.rows;
 };
 
+// Assign a category to a service project
+const assignCategoryToProject = async (categoryId, projectId) => {
+    const query = `
+        INSERT INTO project_categories (category_id, project_id)
+        VALUES ($1, $2);
+    `;
 
-export { getAllCategories };
-export { getCategoryById, getCategoriesByProjectId, getProjectsByCategoryId };
+    await db.query(query, [categoryId, projectId]);
+};
+
+// Retrieve all categories assigned to a specific service project
+const getCategoriesByServiceProjectId = async (projectId) => {
+  const sql = `
+    SELECT c.category_id, c.category_name
+    FROM project_categories pc
+    JOIN categories c ON pc.category_id = c.category_id
+    WHERE pc.project_id = $1
+  `;
+  const result = await db.query(sql, [projectId]);
+  return result.rows;
+};
+
+// Update category assignments for a project
+const updateCategoryAssignments = async (projectId, categoryIds) => {
+    // First, remove existing category assignments for the project
+    const deleteQuery = `
+        DELETE FROM project_categories
+        WHERE project_id = $1;
+    `;
+    await db.query(deleteQuery, [projectId]);
+
+    // Next, add the new category assignments
+    for (const categoryId of categoryIds) {
+        await assignCategoryToProject(categoryId, projectId);
+    }
+};
+
+const getProjectDetails = async (projectId) => {
+    const query = `
+        SELECT
+            service_projects.project_id,
+            service_projects.organization_id,
+            service_projects.title,
+            service_projects.description,
+            service_projects.location,
+            service_projects.date
+        FROM public.service_projects
+        WHERE service_projects.project_id = $1;
+    `;
+
+    const queryParams = [projectId];
+    const result = await db.query(query, queryParams);
+
+    return result.rows[0];
+};
+
+export { getAllCategories, getCategoryById, getCategoriesByProjectId,
+    getProjectsByCategoryId, assignCategoryToProject, updateCategoryAssignments,
+    getCategoriesByServiceProjectId, getProjectDetails
+};
