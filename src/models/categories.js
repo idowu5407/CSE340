@@ -3,7 +3,8 @@ import db from "./db.js";
 const getAllCategories = async () => {
     const query = `
         SELECT category_id, category_name
-        FROM public.categories;
+        FROM public.categories
+        ORDER BY category_name ASC;
     `;
 
     const result = await db.query(query);
@@ -126,7 +127,37 @@ const getProjectDetails = async (projectId) => {
     return result.rows[0];
 };
 
+
+const createCategory = async (categoryName) => {
+    const sql = `
+    INSERT INTO categories (category_name)
+    VALUES ($1)
+    RETURNING category_id, category_name;
+  `;
+    const result = await db.query(sql, [categoryName]);
+
+    if (result.rows.length === 0) {
+        throw new Error('Failed to create category');
+    }
+    return result.rows[0];
+};
+
+const updateCategory = async (categoryId, categoryName) => {
+    const sql = `
+    UPDATE categories
+    SET category_name = $2
+    WHERE category_id = $1
+    RETURNING category_id, category_name;
+  `;
+  const result = await db.query(sql, [categoryId, categoryName]);
+
+  if (result.rows.length === 0) {
+    throw new Error('Failed to update category');
+  }
+  return result.rows[0];
+}
+
 export { getAllCategories, getCategoryById, getCategoriesByProjectId,
     getProjectsByCategoryId, assignCategoryToProject, updateCategoryAssignments,
-    getCategoriesByServiceProjectId, getProjectDetails
+    getCategoriesByServiceProjectId, getProjectDetails, createCategory, updateCategory
 };

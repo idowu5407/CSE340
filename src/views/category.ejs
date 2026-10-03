@@ -1,6 +1,6 @@
-<h1><%= title %></h1>
-<main>
-    <%- include('partials/header') %>
+<%- include('partials/header') %>
+  <h1><%= title %></h1>
+<main> 
 <h2><%= category.category_name %></h2>
 <h3>Service Projects</h3>
 <ul class="project-list">
@@ -10,6 +10,9 @@
     </li>
   <% }) %>
 </ul>
+<a href="/categories">Back to Categories</a>
 </main>
 
-<a href="/categories">Back to Categories</a>
+
+
+<%- include('partials/footer') %>

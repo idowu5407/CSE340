@@ -1,13 +1,19 @@
 <%- include('partials/header') %>
-<main>
+<main class="organizations-page">
     <h1><%= title %></h1>
     <p>Here are a few of our partner organizations:</p>
     <ul>
         <% organizations.forEach(organization => { %>
             <li><img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo">
-                <a href="/organizations/<%= organization.organization_id %>"><%= organization.name %></a>: <%= organization.contact_email %></li>
+                <a href="/organizations/<%= organization.organization_id %>"><%= organization.name %></a> <a href="mailto:<%= organization.contact_email %>"><%= organization.contact_email %></a></li>
         <% }); %>
     </ul>
-    <p><a href="/new-organization">Add a new organization</a></p>
+    
+      <a href="/new-organization" class="full-button">Add a new organization</a>
+      
 </main>
 <%- include('partials/footer') %>
+
+
+
+    

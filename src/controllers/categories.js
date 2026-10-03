@@ -2,7 +2,7 @@
 import {
     getAllCategories, getCategoryById, getProjectsByCategoryId,
     getCategoriesByServiceProjectId, updateCategoryAssignments,
-    getProjectDetails
+    getProjectDetails, createCategory, updateCategory
 } from '../models/categories.js';
 
 
@@ -55,11 +55,72 @@ const processAssignCategoriesForm = async (req, res) => {
     res.redirect(`/project/${projectId}`);
 };
 
+const showCreateCategoryForm = (req, res) => {
+    res.render('new-category', { title: 'Create Category' });
+    
+}
+
+const processCreateCategoryForm = async (req, res) => {
+  const { categoryName } = req.body;
+
+  if (!categoryName || categoryName.trim().length < 3) {
+    req.flash('error', 'Category name must be at least 3 characters.');
+    return res.redirect('/new-category');
+  }
+
+  try {
+    await createCategory(categoryName.trim());
+    req.flash('success', 'Category created successfully!');
+    res.redirect('/categories');
+  } catch (error) {
+    console.error(error);
+    req.flash('error', 'Error creating category.');
+    res.redirect('/new-category');
+  }
+};
+
+const showEditCategoryForm = async (req, res) => {
+  const categoryId = req.params.id;
+  const category = await getCategoryById(categoryId);
+
+  if (!category) {
+    req.flash('error', 'Category not found.');
+    return res.redirect('/categories');
+  }
+
+  res.render('edit-category', { title: 'Edit Category', category });
+};
+
+const processEditCategoryForm = async (req, res) => {
+  const categoryId = req.params.id;
+  const { categoryName } = req.body;
+
+  if (!categoryName || categoryName.trim().length < 3) {
+    req.flash('error', 'Category name must be at least 3 characters.');
+    return res.redirect(`/edit-category/${categoryId}`);
+  }
+
+  try {
+    await updateCategory(categoryId, categoryName.trim());
+    req.flash('success', 'Category updated successfully!');
+    res.redirect('/categories');
+  } catch (error) {
+    console.error(error);
+    req.flash('error', 'Error updating category.');
+    res.redirect(`/edit-category/${categoryId}`);
+  }
+};
+
+
 
 // Export any controller functions
 export {
     showCategoriesPage,
     showCategoryDetailsPage,
     showAssignCategoriesForm,
-    processAssignCategoriesForm
+    processAssignCategoriesForm, 
+    showCreateCategoryForm,
+    processCreateCategoryForm,
+    showEditCategoryForm,
+    processEditCategoryForm
 };

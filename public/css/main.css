@@ -15,7 +15,6 @@ body {
     line-height: 1.6;
 }
 
-
 /* ------------------------------
    Navigation
 ------------------------------ */
@@ -53,7 +52,6 @@ nav a:hover {
     background-color: #2f5d8a;
 }
 
-
 /* ------------------------------
    Main Content
 ------------------------------ */
@@ -80,7 +78,6 @@ h2 {
 p {
     color: #546e7a;
 }
-
 
 /* ------------------------------
    Categories
@@ -110,6 +107,212 @@ p {
     margin-top: 0;
     margin-bottom: 10px;
 }
+
+/* ------------------------------
+   Category List
+------------------------------ */
+/* Full-width action button */
+.full-button {
+  display: block;              /* makes it span full width */
+  width: 100%;                 /* ensures it stretches across container */
+  padding: 14px;
+  margin: 20px 0;
+  background-color: #004080;   /* dark blue */
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.full-button:hover {
+  background-color: #002d5a;   /* darker on hover */
+}
+
+
+
+.actions {
+    margin-bottom: 20px;
+    display: block;
+    
+}
+
+.actions a {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #004080;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.actions a:hover {
+    background: #002d5a;
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+}
+
+.category-list li span {
+    font-size: 15px;
+    color: #333;
+}
+
+.category-list li a {
+    padding: 6px 12px;
+    background: #004080;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: background 0.3s ease;
+}
+
+.category-list li a:hover {
+    background: #002d5a;
+}
+
+
+
+/* ------------------------------
+   Organization Page Only
+------------------------------ */
+
+.organizations-page > ul {
+    list-style: none;
+    padding: 0;
+
+    margin: 30px 0;
+    
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+/* Organization Cards */
+
+.organizations-page > ul > li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    padding: 15px 10px;
+    min-height: 180px;
+
+    background-color: #ffffff;
+    border: 1px solid #dce3e8;
+    border-radius: 10px;
+
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.organizations-page > ul > li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* Organization Logo */
+
+.organizations-page > ul > li img {
+    width: 75px;
+    height: 75px;
+
+    object-fit: contain;
+
+    padding: 7px;
+    margin-bottom: 10px;
+
+    background-color: #f4f7f9;
+    border-radius: 50%;
+}
+
+/* Organization Name */
+
+.organizations-page > ul > li a {
+    color: #1f3a5f;
+    font-size: 0.9rem;
+    font-weight: bold;
+    line-height: 1.3;
+
+    text-decoration: none;
+
+    margin-bottom: 5px;
+}
+
+.organizations-page > ul > li a:hover {
+    color: #007bff;
+}
+
+/* Email */
+
+.organizations-page > ul > li .email-link {
+    color: #607d8b;
+    font-size: 0.75rem;
+    font-weight: normal;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    margin-bottom: 8px;
+}
+
+.organization-page > ul > li .email-link:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+/* ------------------------------
+   Add Organization Button
+------------------------------ */
+
+.organizations-page .actions {
+    margin-top: 25px;
+    text-align: right;
+}
+
+.organizations-page .actions a {
+    display: inline-block;
+
+    padding: 11px 20px;
+
+    background-color: #004080;
+    color: #ffffff;
+
+    text-decoration: none;
+    font-weight: bold;
+
+    border-radius: 6px;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
+
+.organizations-page .actions a:hover {
+    background-color: #002d5a;
+    transform: translateY(-2px);
+}
+
 
 /* ------------------------------
    Category Details / Projects
@@ -142,43 +345,66 @@ p {
     transform: translateX(5px);
 }
 
-/* Form */
+/* ------------------------------
+   Forms
+------------------------------ */
+
 form {
-    max-width: 600px;
-    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-label {
-    display: block;
-    margin-top: 15px;
+form label {
     font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
 }
 
-input,
-textarea,
-select {
+form input[type="text"],
+form input[type="date"],
+form textarea,
+form select {
     width: 100%;
     padding: 10px;
-    margin-top: 5px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
 }
 
-button {
-    margin-top: 20px;
-    padding: 12px 25px;
-    background-color: #1f3a5f;
-    color: white;
+form input:focus,
+form textarea:focus,
+form select:focus {
+    border-color: #004080;
+    outline: none;
+}
+
+form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+form button[type="submit"] {
+    padding: 12px;
+    background-color: #004080;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #2f5d8a;
+form button[type="submit"]:hover {
+    background-color: #002d5a;
 }
 
-/* Feedback messages */
+/* ------------------------------
+   Flash / Feedback Messages
+------------------------------ */
+
 .success {
     padding: 15px;
     background-color: #e8f5e9;
@@ -193,8 +419,6 @@ button:hover {
     margin-bottom: 20px;
 }
 
-
-* Flash message styles */
 .alert {
     padding: 15px;
     margin-bottom: 20px;
@@ -204,46 +428,54 @@ button:hover {
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .alert.success {
     color: #155724;
     background-color: #d4edda;
     border-color: #c3e6cb;
-    border: 1px solid #c3e6cb;
 }
+
 .alert.error {
     color: #721c24;
     background-color: #f8d7da;
-    border-color: #f5c6cb; 
-    border: 1px solid #f5c6cb;
+    border-color: #f5c6cb;
 }
+
 .alert.warning {
     color: #856404;
     background-color: #fff3cd;
     border-color: #ffeeba;
 }
+
 .alert.info {
     color: #0c5460;
     background-color: #d1ecf1;
     border-color: #bee5eb;
 }
 
-/* Style for the Add New Service Project link */
+/* ------------------------------
+   Add Project Link
+------------------------------ */
+
 .add-project-link {
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 15px 0;
-  background-color: #007bff; /* Bootstrap blue */
-  color: #fff;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 15px 0;
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .add-project-link:hover {
-  background-color: #0056b3; /* darker blue on hover */
-  text-decoration: none;
+    background-color: #0056b3;
 }
+
+/* ------------------------------
+   Category Checkboxes
+------------------------------ */
 
 .category-checkbox {
     display: flex;
@@ -265,7 +497,7 @@ button:hover {
 }
 
 /* ------------------------------
-   Footer   
+   Footer
 ------------------------------ */
 
 footer {
@@ -281,15 +513,11 @@ footer p {
     margin: 0;
 }
 
-
-
-
 /* ------------------------------
    Mobile Layout
 ------------------------------ */
 
 @media (max-width: 700px) {
-
     body {
         padding: 0;
     }

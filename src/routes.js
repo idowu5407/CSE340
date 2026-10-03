@@ -17,7 +17,8 @@ import { showNewProjectForm, processNewProjectForm } from './controllers/project
 import { projectValidation } from './controllers/projects.js'; // Import the validation rules for projects
 import { showAssignCategoriesForm, processAssignCategoriesForm } from './controllers/categories.js'; // Import the assign categories form controller functions
 import { showEditProjectForm, processEditProjectForm } from './controllers/projects.js'; // Import the edit project form controller functions
-
+import { showCreateCategoryForm, processCreateCategoryForm } from './controllers/categories.js'; // Import the create category form controller functions
+import { showEditCategoryForm, processEditCategoryForm } from './controllers/categories.js'; // Import the edit category form controller functions
 
 const router = express.Router();
 
@@ -38,6 +39,11 @@ router.get('/project/:projectId/assign-categories', showAssignCategoriesForm); /
 router.post('/project/:projectId/assign-categories', processAssignCategoriesForm); // Handle the submission of the assign categories form 
 router.get('/edit-project/:projectId', showEditProjectForm); // Show the edit project form
 router.post('/edit-project/:projectId', processEditProjectForm); // Handle the submission of the edit project form
+router .get('/new-category', showCreateCategoryForm); // Show the create category form
+router.post('/new-category', processCreateCategoryForm); // Handle the submission of the create category form
+router.get('/edit-category/:id', showEditCategoryForm); // Show the edit category form
+router.post('/edit-category/:id', processEditCategoryForm); // Handle the submission of the edit category form
+
 
 //router.get('/test', (req, res) => {
     //res.send('TEST ROUTE IS WORKING');

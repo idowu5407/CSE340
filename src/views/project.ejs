@@ -1,6 +1,7 @@
-<h1><%= title %></h1>
+ <%- include('partials/header') %>
 <main>
-    <%- include('partials/header') %>
+  <h1><%= title %></h1>
+   
   <h2><%= project.title %></h2>
   <p><%= project.description %></p>
   <p>Date: <%= new Date(project.date).toLocaleDateString('en-US', { 
@@ -19,8 +20,10 @@
     <% }) %>
   </div>
   <a href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a>
-  <a href="/edit-project/<%= project.project_id %>">Edit Project</a>
-
+  <div>
+    <a href="/edit-project/<%= project.project_id %>">Edit Project</a>
+  </div>
+  <a href="/projects" class="full-button">Back to Projects</a>
 </main>
+<%- include('partials/footer') %>
 
-<a href="/projects">Back to Projects</a>
