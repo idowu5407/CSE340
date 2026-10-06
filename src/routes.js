@@ -19,6 +19,10 @@ import { showAssignCategoriesForm, processAssignCategoriesForm } from './control
 import { showEditProjectForm, processEditProjectForm } from './controllers/projects.js'; // Import the edit project form controller functions
 import { showCreateCategoryForm, processCreateCategoryForm } from './controllers/categories.js'; // Import the create category form controller functions
 import { showEditCategoryForm, processEditCategoryForm } from './controllers/categories.js'; // Import the edit category form controller functions
+import { showUserRegistrationForm, processUserRegistrationForm } from './controllers/users.js'; // Import the user registration form controller functions
+import { showLoginForm, processLoginForm, processLogout } from './controllers/users.js'; // Import the login form controller functions
+import { requireLogin, showDashboard } from './controllers/users.js';
+
 
 const router = express.Router();
 
@@ -43,7 +47,12 @@ router .get('/new-category', showCreateCategoryForm); // Show the create categor
 router.post('/new-category', processCreateCategoryForm); // Handle the submission of the create category form
 router.get('/edit-category/:id', showEditCategoryForm); // Show the edit category form
 router.post('/edit-category/:id', processEditCategoryForm); // Handle the submission of the edit category form
-
+router.get('/register', showUserRegistrationForm); // Show the user registration form
+router.post('/register', processUserRegistrationForm); // Handle the submission of the user registration form
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
+router.get('/dashboard', requireLogin, showDashboard); // Show the dashboard page
 
 //router.get('/test', (req, res) => {
     //res.send('TEST ROUTE IS WORKING');
