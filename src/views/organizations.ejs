@@ -4,13 +4,19 @@
     <p>Here are a few of our partner organizations:</p>
     <ul>
         <% organizations.forEach(organization => { %>
-            <li><img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo">
-                <a href="/organizations/<%= organization.organization_id %>"><%= organization.name %></a> <a href="mailto:<%= organization.contact_email %>"><%= organization.contact_email %></a></li>
+            <li>
+                <img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo">
+                <a href="/organizations/<%= organization.organization_id %>"><%= organization.name %>
+                </a> <a href="mailto:<%= organization.contact_email %>"><%= organization.contact_email %></a>
+                <% if (user && user.role_name === 'admin') { %>
+                    <a href="/edit-organization/<%= organization.organization_id %>">Edit Organization</a>
+                <% } %>
+            </li>
         <% }); %>
     </ul>
-    
-      <a href="/new-organization" class="full-button">Add a new organization</a>
-      
+        <% if (user && user.role_name === 'admin') { %>
+            <a href="/new-organization" class="full-button">Add a new organization</a>
+        <% } %>
 </main>
 <%- include('partials/footer') %>
 

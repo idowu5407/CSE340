@@ -247,3 +247,43 @@ CREATE TABLE users (
     role_id INTEGER REFERENCES roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+-- Insert a test user
+INSERT INTO users (name, email, password_hash, role_id) 
+VALUES ('testuser', 'test@example.com', 'placeholder_hash', 1);
+
+-- Join users and roles to see complete information
+SELECT u.user_id, u.name, u.email, r.role_name, r.role_description
+FROM users u
+JOIN roles r ON u.role_id = r.role_id;
+
+-- Delete the test user
+DELETE FROM users WHERE email = 'juniormicheal25@yahoo.com';
+
+
+-- View all users and roles
+SELECT * FROM users;
+SELECT * FROM roles;
+
+-- Update the dedicated admin testing account to have admin role
+UPDATE users SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin') WHERE email = 'admin@example.com';
+
+-- Verify the update by listing all users and their roles
+SELECT users.user_id, users.email, roles.role_name FROM users JOIN roles ON users.role_id = roles.role_id;
+
+UPDATE users
+SET password_hash = '$2b$10$ljfc/j1Manz99e6rqSbeXOpFGDdR5yfcc2v2pZM/59MOiyIeaySPi'
+WHERE user_id = 12
+  AND email = 'admin@example.com';
+
+
+ SELECT 
+    u.user_id,
+    u.email,
+    r.role_name
+FROM users u
+JOIN roles r ON u.role_id = r.role_id
+WHERE u.user_id = 12;
+
+Select * from users;

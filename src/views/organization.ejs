@@ -13,8 +13,9 @@
             <li><a href="/project/<%= project.project_id %>"><%= project.title %></a></li>
         <% }) %>
     </ul>
-    <a href="/edit-organization/<%= organizationDetails.organization_id %>"class="full-button">Edit Organization</a></p>
-
+    <% if (user && user.role_name === 'admin') { %>
+        <a href="/edit-organization/<%= organizationDetails.organization_id %>"class="full-button">Edit Organization</a></p>
+    <% } %>
 </main>
 
 

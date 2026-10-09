@@ -13,7 +13,9 @@
       <p>
         Organization: 
         <a href="/organizations/<%= project.organization_id %>"><%= project.organization_name %></a>
-        <p><a href="/new-project" class="add-project-link">Add a New Service Project</a></p>
+        <% if (user && user.role_name === 'admin') { %>
+          <p><a href="/new-project" class="add-project-link">Add a New Service Project</a></p>
+        <% } %>
       </p>
     </li>
   <% }) %>

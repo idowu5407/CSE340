@@ -19,9 +19,11 @@
       <a href="/category/<%= category.category_id %>"><%= category.category_name %></a>
     <% }) %>
   </div>
-  <a href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a>
-  <div>
-    <a href="/edit-project/<%= project.project_id %>">Edit Project</a>
+  <div></div>
+    <% if (user && user.role_name === 'admin') { %>
+      <li><a href="/edit-project/<%= project.project_id %>">Edit Project</a></li>
+      <li><a href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a></li>
+    <% } %>
   </div>
   <a href="/projects" class="full-button">Back to Projects</a>
 </main>
