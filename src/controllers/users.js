@@ -118,6 +118,24 @@ const requireRole = (role) => {
     };
 };
 
+import { getAllUsers } from '../models/users.js';
+
+// Show all registered users (admin only)
+const showUsersPage = async (req, res) => {
+  if (!req.session.user || req.session.user.role_name !== 'admin') {
+    req.flash('error', 'You do not have permission to view the users page.');
+    return res.redirect('/dashboard');
+  }
+
+  try {
+    const users = await getAllUsers();
+    res.render('users', { title: 'All Users', users });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    req.flash('error', 'Unable to load users.');
+    res.redirect('/dashboard');
+  }
+};
 
 
 
@@ -130,5 +148,6 @@ export {
   processLogout,
   requireLogin,
   showDashboard,
-  requireRole
+    requireRole,
+    showUsersPage
 };
