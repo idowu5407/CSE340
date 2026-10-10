@@ -541,6 +541,34 @@ form button[type="submit"]:hover {
   background-color: #f1f1f1;
 }
 
+/* Display the project title and button on the same line */
+.volunteer-project-list {
+    list-style: none;
+    padding: 0;
+}
+
+.volunteer-project-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+/* Keep the form beside the project title */
+.remove-volunteer-form {
+    margin: 0;
+}
+
+/* Style the Remove Me button */
+.remove-volunteer-form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+}
+
 /* ------------------------------
    Footer
 ------------------------------ */

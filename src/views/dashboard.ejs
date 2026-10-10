@@ -2,8 +2,6 @@
 
 <main>
     <h1><%= title %></h1>
-
-    <h2>Dashboard</h2>
     <p>Name: <%= name %></p>
     <p>Username: <%= email %></p>
  
@@ -11,6 +9,46 @@
         <a href="/users"class="full-button">View All Users</a>
     <% } %>
 
+   <section class="volunteer-projects">
+
+    <h2>Your Volunteer Projects</h2>
+
+    <% if (volunteeredProjects && volunteeredProjects.length > 0) { %>
+
+        <ul class="volunteer-project-list">
+
+            <% volunteeredProjects.forEach(project => { %>
+
+                <li class="volunteer-project-item">
+
+                    <a href="/project/<%= project.project_id %>">
+                        <%= project.title %>
+                    </a>
+
+                    <form
+                        action="/project/<%= project.project_id %>/cancel-volunteer"
+                        method="POST"
+                        class="remove-volunteer-form">
+
+                        <button type="submit">Remove Me</button>
+
+                    </form>
+
+                </li>
+
+                <% }) %>
+
+            </ul>
+
+        <% } else { %>
+
+            <p>You have not signed up to volunteer for any projects yet.</p>
+
+            <a href="/projects">Browse Service Projects</a>
+
+        <% } %>
+
+    </section>
 
 </main>
 

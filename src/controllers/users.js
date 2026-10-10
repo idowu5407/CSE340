@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import { createUser } from '../models/users.js';
 import { authenticateUser } from '../models/users.js';
+import { getVolunteeredProjects } from '../models/volunteers.js';
+
 
 // Show the user registration form
 const showUserRegistrationForm = (req, res) => {
@@ -82,14 +84,29 @@ const requireLogin = (req, res, next) => {
 
 
 // Show the dashboard page
-const showDashboard = (req, res) => {
-    const user = req.session.user;
-    res.render('dashboard', { 
-        title: 'Dashboard',
-        name: user.name,
-        email: user.email
-    });
+const showDashboard = async (req, res, next) => {
+    try {
+        const user = req.session.user;
+        if (!user) {
+            req.flash('error', 'You must be logged in to access that page.');
+            return res.redirect('/login');
+        }
+
+        const userId = user.user_id;
+        const volunteeredProjects = await getVolunteeredProjects(userId);
+
+        res.render('dashboard', {
+            title: 'Dashboard',
+            name: user.name,
+            email: user.email,
+            user: user,
+            volunteeredProjects
+        });
+    } catch (error) {
+        next(error);
+    }
 };
+
 
 
 /**

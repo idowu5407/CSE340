@@ -18,7 +18,9 @@ import {
   processNewProjectForm,
   showEditProjectForm,
   processEditProjectForm,
-  projectValidation
+    projectValidation,
+    volunteerForProject,
+    cancelVolunteer
 } from './controllers/projects.js';
 
 import {
@@ -43,7 +45,7 @@ import {
   requireLogin,
   showDashboard,
     requireRole,
-    showUsersPage
+    showUsersPage,
 } from './controllers/users.js';
 
 const router = express.Router();
@@ -68,6 +70,8 @@ router.get('/project/:projectId/assign-categories', requireRole('admin'), showAs
 router.post('/project/:projectId/assign-categories', requireRole('admin'), processAssignCategoriesForm);
 router.get('/edit-project/:projectId', requireRole('admin'), showEditProjectForm);
 router.post('/edit-project/:projectId', requireRole('admin'), processEditProjectForm);
+router.post('/project/:projectId/volunteer', requireLogin, volunteerForProject);
+router.post('/project/:projectId/cancel-volunteer', requireLogin, cancelVolunteer);
 
 // Categories (admin‑only for create/edit)
 router.get('/categories', showCategoriesPage);

@@ -19,12 +19,31 @@
       <a href="/category/<%= category.category_id %>"><%= category.category_name %></a>
     <% }) %>
   </div>
-  <div></div>
+  <div>
+        <% if (locals.user) { %> <% if (isVolunteer) { %>
+
+        <p>You are volunteering for this project.</p>
+          <form
+              action="/project/<%= project.project_id %>/cancel-volunteer"method="POST">
+              <button type="submit">Remove Me as a Volunteer</button>    
+          </form>
+
+        <% } else { %>
+
+            <form
+                action="/project/<%= project.project_id %>/volunteer"method="POST">
+                <button type="submit">Volunteer for This Project</button> 
+            </form>
+
+        <% } %>
+
+    <% } %>
     <% if (user && user.role_name === 'admin') { %>
       <li><a href="/edit-project/<%= project.project_id %>">Edit Project</a></li>
       <li><a href="/project/<%= project.project_id %>/assign-categories">Edit Categories</a></li>
     <% } %>
   </div>
+  
   <a href="/projects" class="full-button">Back to Projects</a>
 </main>
 <%- include('partials/footer') %>

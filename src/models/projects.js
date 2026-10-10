@@ -109,4 +109,16 @@ const updateProject = async (projectId, organizationId, title, description, loca
     return result.rows[0];
 };
 
+const getUserVolunteeredProjects = async (userId) => {
+  const query = `
+    SELECT p.project_id, p.name, p.description
+    FROM projects p
+    JOIN project_volunteers pv ON p.project_id = pv.project_id
+    WHERE pv.user_id = $1;
+  `;
+  const result = await db.query(query, [userId]);
+  return result.rows;
+};
+
+
 export { getUpcomingProjects, getProjectsByOrganizationId, getProjectDetails, createProject, updateProject };

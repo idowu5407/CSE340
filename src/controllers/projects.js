@@ -8,6 +8,8 @@ import { createProject } from '../models/projects.js';
 import { getAllOrganizations } from '../models/organizations.js';
 import { body, validationResult } from 'express-validator';
 import { updateProject } from '../models/projects.js';
+import { addVolunteer, removeVolunteer, hasVolunteered } from '../models/volunteers.js';
+
 
 const NUMBER_OF_PROJECTS_TO_SHOW = 5;
 
@@ -51,13 +53,79 @@ const showOrganizationDetailsPage = async (req, res) => {
     res.render('organization', {title, organizationDetails, projects});
 };
 
-const showProjectDetailsPage = async (req, res) => {
-    const projectId = req.params.id;
-    const project = await getProjectDetails(projectId);
-    const categories = await getCategoriesByProjectId(projectId);
-    const title = 'Project Details';
-    
-    res.render('project', { title, project, categories });
+const showProjectDetailsPage = async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+
+        const project = await getProjectDetails(projectId);
+
+        if (!project) {
+            return res.status(404).render("errors/error", {
+                title: "Project Not Found",
+                message: "The requested project could not be found."
+            });
+        }
+
+        const categories = await getCategoriesByProjectId(projectId);
+
+        let isVolunteer = false;
+
+        if (req.session.user) {
+            const userId = req.session.user.user_id;
+
+            isVolunteer = await hasVolunteered(userId, projectId);
+        }
+
+        const title = "Project Details";
+
+        res.render("project", {
+            title,
+            project,
+            categories,
+            isVolunteer
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Register the logged-in user as a volunteer
+const volunteerForProject = async (req, res, next) => {
+    try {
+        const userId = req.session.user.user_id;
+        const projectId = req.params.projectId;
+
+        await addVolunteer(userId, projectId);
+
+        req.flash(
+            "notice",
+            "You have signed up to volunteer for this project."
+        );
+
+        res.redirect(`/project/${projectId}`);
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+// Cancel the logged-in user's volunteer signup
+const cancelVolunteer = async (req, res, next) => {
+    try {
+        const userId = req.session.user.user_id;
+        const projectId = req.params.projectId;
+
+        await removeVolunteer(userId, projectId);
+
+        req.flash(
+            "notice",
+            "You are no longer volunteering for this project."
+        );
+
+        res.redirect(`/project/${projectId}`);
+    } catch (error) {
+        next(error);
+    }
 };
 
 const showCategoryDetailsPage = async (req, res) => {
@@ -157,5 +225,6 @@ export {
     showProjectsPage, showOrganizationDetailsPage,
     showProjectDetailsPage, showCategoryDetailsPage,
     showNewProjectForm, processNewProjectForm,
-    projectValidation, showEditProjectForm, processEditProjectForm
+    projectValidation, showEditProjectForm, processEditProjectForm,
+    addVolunteer, removeVolunteer, volunteerForProject, cancelVolunteer
  };

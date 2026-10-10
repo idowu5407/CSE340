@@ -272,11 +272,6 @@ UPDATE users SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin')
 -- Verify the update by listing all users and their roles
 SELECT users.user_id, users.email, roles.role_name FROM users JOIN roles ON users.role_id = roles.role_id;
 
-UPDATE users
-SET password_hash = '$2b$10$ljfc/j1Manz99e6rqSbeXOpFGDdR5yfcc2v2pZM/59MOiyIeaySPi'
-WHERE user_id = 12
-  AND email = 'admin@example.com';
-
 
  SELECT 
     u.user_id,
@@ -287,3 +282,19 @@ JOIN roles r ON u.role_id = r.role_id
 WHERE u.user_id = 12;
 
 Select * from users;
+
+
+-- Table to track volunteers for projects
+CREATE TABLE project_volunteers (
+    volunteer_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    project_id INT NOT NULL REFERENCES service_projects(project_id) ON DELETE CASCADE,
+    UNIQUE (user_id, project_id)
+);
+
+-- Show all the table names
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+AND table_type = 'BASE TABLE'
+ORDER BY table_name;
