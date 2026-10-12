@@ -90,7 +90,7 @@ router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
 router.get('/dashboard', requireLogin, showDashboard);
 router.get('/users', requireRole('admin'), showUsersPage);
-router.post('/users/:userId/delete', requireRole('admin'),deleteUser);
+router.post('/users/:userId/delete', requireRole('admin'), deleteUser);
 
 
 // Error handling

@@ -1,4 +1,4 @@
-import { createUser, authenticateUser, deleteUserById } from '../models/users.js';
+import { createUser,getAllUsers, authenticateUser, deleteUserById } from '../models/users.js';
 import { getVolunteeredProjects } from '../models/volunteers.js';
 
 
@@ -130,45 +130,40 @@ const requireRole = (role) => {
     };
 };
 
-import { getAllUsers } from '../models/users.js';
+
 
 // Show all registered users (admin only)
 const showUsersPage = async (req, res) => {
-  if (!req.session.user || req.session.user.role_name !== 'admin') {
-    req.flash('error', 'You do not have permission to view the users page.');
-    return res.redirect('/dashboard');
-  }
+    if (!req.session.user || req.session.user.role_name !== 'admin') {
+        req.flash('error', 'You do not have permission to view the users page.');
+        return res.redirect('/dashboard');
+    }
 
-  try {
-    const users = await getAllUsers();
-    res.render('users', { title: 'All Users', users });
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    req.flash('error', 'Unable to load users.');
-    res.redirect('/dashboard');
-  }
+    try {
+        const users = await getAllUsers();
+        res.render('users', { title: 'All Users', users });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        req.flash('error', 'Unable to load users.');
+        res.redirect('/dashboard');
+    }
 };
 
 // Delete users
-
-
 const deleteUser = async (req, res) => {
   if (!req.session.user || req.session.user.role_name !== 'admin') {
-    console.log("❌ Delete attempt blocked: not an admin");
     req.flash('error', 'You do not have permission to delete users.');
     return res.redirect('/users');
   }
 
   const userId = req.params.userId;
-  console.log("🟢 Delete route hit. User ID to delete:", userId);
 
   try {
     await deleteUserById(userId);
-    console.log("✅ Controller finished delete for user:", userId);
     req.flash('success', 'User deleted successfully.');
     res.redirect('/users');
   } catch (err) {
-    console.error("❌ Error deleting user:", err);
+    console.error(err);
     req.flash('error', 'Failed to delete user.');
     res.redirect('/users');
   }

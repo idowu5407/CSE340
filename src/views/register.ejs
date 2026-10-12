@@ -1,40 +1,97 @@
 <%- include('partials/header') %>
-<main>
+
+<main class="register-container">
     <h1><%= title %></h1>
 
     <form action="/register" method="POST">
+
+        <!-- Name Field -->
         <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">Full Name</label>
             <input
                 type="text"
                 id="name"
                 name="name"
+                placeholder="Enter your full name"
+                autocomplete="name"
                 required
             />
         </div>
-        
+
+        <!-- Email Field -->
         <div class="form-group">
-            <label for="email">Email (Username)</label>
+            <label for="email">Email</label>
             <input
                 type="email"
                 id="email"
                 name="email"
+                placeholder="Enter your email"
+                autocomplete="email"
                 required
             />
         </div>
 
+        <!-- Password Field -->
         <div class="form-group">
             <label for="password">Password</label>
-            <input
-                type="password"
-                id="password"
-                name="password"
-                required
-            />
+
+            <div class="password-wrapper">
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    required
+                />
+
+                <button
+                    type="button"
+                    class="toggle-password"
+                    data-password-target="password"
+                    aria-label="Show password"
+                    aria-pressed="false"
+                >👁️</button>
+            </div>
         </div>
 
-        <button type="submit">Register</button>
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+
+            <div class="password-wrapper">
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Confirm your password"
+                    autocomplete="new-password"
+                    required
+                />
+
+                <button
+                    type="button"
+                    class="toggle-password"
+                    data-password-target="confirmPassword"
+                    aria-label="Show password"
+                    aria-pressed="false"
+                >👁️</button>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="register-button">
+            Create Account
+        </button>
+
     </form>
 
+    <p class="login-link">
+        Already have an account?
+        <a href="/login">Log in here</a>
+    </p>
 </main>
+
+<script src="/js/password-toggle.js" defer></script>
+
 <%- include('partials/footer') %>

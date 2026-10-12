@@ -566,6 +566,41 @@ footer {
     text-align: center;
 }
 
+
+/* ======================
+toggle password
+=========================*/
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 50px;
+    box-sizing: border-box;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    padding: 5px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.toggle-password:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
 footer p {
     margin: 0;
     color: #fff;
