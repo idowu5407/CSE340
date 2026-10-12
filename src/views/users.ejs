@@ -1,23 +1,37 @@
 <%- include('partials/header') %>
 <main class="users-page">
-  <h1><%= title %></h1>
+  <h2>All Users</h2>
   <table>
     <thead>
       <tr>
         <th>Name</th>
         <th>Email (Username)</th>
         <th>Role</th>
+        <% if (user && user.role_name === 'admin') { %>
+          <th>Action</th>
+        <% } %>
       </tr>
     </thead>
     <tbody>
-      <% users.forEach(user => { %>
+      <% users.forEach(u => { %>
         <tr>
-          <td><%= user.name %></td>
-          <td><%= user.email %></td>
-          <td><%= user.role_name %></td>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td><%= u.role_name %></td>
+          <% if (user && user.role_name === 'admin') { %>
+            <td>
+              <form action="/users/<%= u.user_id %>/delete" method="POST" style="display:inline;">
+                <button type="submit" class="danger-button"
+                  onclick="return confirm('Are you sure you want to delete <%= u.name %>?');">
+                  Delete
+                </button>
+              </form>
+            </td>
+          <% } %>
         </tr>
       <% }); %>
     </tbody>
   </table>
+
 </main>
 <%- include('partials/footer') %>

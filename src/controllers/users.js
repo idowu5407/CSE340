@@ -1,6 +1,4 @@
-import bcrypt from 'bcrypt';
-import { createUser } from '../models/users.js';
-import { authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, deleteUserById } from '../models/users.js';
 import { getVolunteeredProjects } from '../models/volunteers.js';
 
 
@@ -14,16 +12,13 @@ const processUserRegistrationForm = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        // Hash the password before storing it
-        const salt = await bcrypt.genSalt(10);
-        const passwordHash = await bcrypt.hash(password, salt);
+        // Pass the original password to createUser.
+        // createUser will hash it before storing it.
+        await createUser(name, email, password);
 
-        // Create the user in the database
-        const userId = await createUser(name, email, passwordHash);
-
-        // Redirect to the home page after successful registration
         req.flash('success', 'Registration successful! Please log in.');
-        res.redirect('/');
+        res.redirect('/login');
+
     } catch (error) {
         console.error('Error registering user:', error);
         req.flash('error', 'An error occurred during registration. Please try again.');
@@ -154,6 +149,30 @@ const showUsersPage = async (req, res) => {
   }
 };
 
+// Delete users
+
+
+const deleteUser = async (req, res) => {
+  if (!req.session.user || req.session.user.role_name !== 'admin') {
+    console.log("❌ Delete attempt blocked: not an admin");
+    req.flash('error', 'You do not have permission to delete users.');
+    return res.redirect('/users');
+  }
+
+  const userId = req.params.userId;
+  console.log("🟢 Delete route hit. User ID to delete:", userId);
+
+  try {
+    await deleteUserById(userId);
+    console.log("✅ Controller finished delete for user:", userId);
+    req.flash('success', 'User deleted successfully.');
+    res.redirect('/users');
+  } catch (err) {
+    console.error("❌ Error deleting user:", err);
+    req.flash('error', 'Failed to delete user.');
+    res.redirect('/users');
+  }
+};
 
 
 
@@ -166,5 +185,6 @@ export {
   requireLogin,
   showDashboard,
     requireRole,
-    showUsersPage
+    showUsersPage,
+    deleteUser
 };

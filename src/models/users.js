@@ -90,4 +90,23 @@ const getAllUsers = async () => {
   return result.rows;
 };
 
-export { createUser, findUserByEmail, verifyPassword, authenticateUser, showDashboard, getAllUsers };
+const deleteUserById = async (userId) => {
+  console.log("🔍 Running delete query for user:", userId);
+
+  const query = 'DELETE FROM users WHERE user_id = $1 RETURNING *';
+  const result = await db.query(query, [userId]);
+
+  console.log("📊 Delete query result rows:", result.rows);
+
+  if (result.rows.length === 0) {
+    console.log("⚠️ No user found with ID:", userId);
+  } else {
+    console.log("✅ User deleted:", result.rows[0]);
+  }
+};
+
+export {
+    createUser, findUserByEmail,
+    verifyPassword, authenticateUser,
+    showDashboard, getAllUsers, deleteUserById
+};

@@ -44,8 +44,9 @@ import {
   processLogout,
   requireLogin,
   showDashboard,
-    requireRole,
-    showUsersPage,
+  requireRole,
+  showUsersPage,
+  deleteUser
 } from './controllers/users.js';
 
 const router = express.Router();
@@ -89,6 +90,8 @@ router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
 router.get('/dashboard', requireLogin, showDashboard);
 router.get('/users', requireRole('admin'), showUsersPage);
+router.post('/users/:userId/delete', requireRole('admin'),deleteUser);
+
 
 // Error handling
 router.get('/test-error', testErrorPage);
